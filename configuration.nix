@@ -1,5 +1,5 @@
-# Edit this configuration file to define what should be installed on your system.  
-# Help is available in the configuration.nix(5) man page and in the NixOS manual 
+# Edit this configuration file to define what should be installed on your system.
+# Help is available in the configuration.nix(5) man page and in the NixOS manual
 # (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
@@ -27,48 +27,55 @@
   nixpkgs.config.allowUnfree = true;
   networking.networkmanager.enable = true;
 
-  # networking.hostName = "nixos"; # Define your hostname. 
-  # networking.wireless.enable = true; # Enables wireless support via 
+  # networking.hostName = "nixos"; # Define your hostname.
+  # networking.wireless.enable = true; # Enables wireless support via
   # wpa_supplicant.
 
   # Select internationalisation properties. i18n = {
-  #   consoleFont = "Lat2-Terminus16"; consoleKeyMap = "us"; defaultLocale = 
+  #   consoleFont = "Lat2-Terminus16"; consoleKeyMap = "us"; defaultLocale =
   #   "en_US.UTF-8";
   # };
 
   # Set your time zone.
   time.timeZone = "America/New_York";
 
-  # List packages installed in system profile. To search by name, run: $ nix-env 
+  # List packages installed in system profile. To search by name, run: $ nix-env
   # -qaP | grep wget
   environment.systemPackages = with pkgs; [
     bashInteractive
     wget
-    chromium
     firefox
     slack
     xcape
     customVim
-    neovim
     emacs
     tmux
     git
     python
-    racket
     weechat
+    alacritty
   ];
 
   nixpkgs.config.packageOverrides = (import ./package-overrides);
 
   # List services that you want to enable:
 
-  # Enable the OpenSSH daemon. services.openssh.enable = true;
+  # Enable the OpenSSH daemon.
+  services.openssh.enable = true;
+  users.extraUsers.root.openssh.authorizedKeys.keys = [
+    # builtins.readFile("/home/spietz/.ssh/id_rsa.pub")
+  ];
 
-  # Open ports in the firewall. networking.firewall.allowedTCPPorts = [ ... ]; 
-  # networking.firewall.allowedUDPPorts = [ ... ]; Or disable the firewall 
+  # Open ports in the firewall. networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ]; Or disable the firewall
   # altogether. networking.firewall.enable = false;
 
   # Enable CUPS to print documents. services.printing.enable = true;
+  
+  # Enable Postgres server
+  services.postgresql.enable = true;
+  services.postgresql.package = pkgs.postgresql100;
+
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -90,6 +97,7 @@
     extraGroups = [
       "wheel"
       "docker"
+      "virtualbox"
       "networkmanager"
       "messagebus"
       "systemd-journal"
@@ -110,9 +118,10 @@
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host.enable = true;
 
   # powerManagement.enable = true; services.tlp.enable = true;
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "17.03";
+  system.stateVersion = "18.03";
 }

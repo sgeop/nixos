@@ -25,6 +25,14 @@ in
       filetype plugin indent on
       set backspace=indent,eol,start
 
+      " when pressing tab use 2 spaces width
+      set expandtab
+      " show existing tab with 2 spaces width
+      set tabstop=2
+      set softtabstop=2
+      " when indenting with '>', use 2 spaces width
+      set shiftwidth=2
+
       let mapleader = " "
 
       nmap <Leader>pt :NERDTreeToggle<CR>
@@ -34,7 +42,7 @@ in
       map <C-H> <C-W>h
       map <C-L> <C-W>l
 
-      colorscheme molokai
+      colorscheme gardener
 
       let g:ctrlp_z_nerdtree = 1
       let g:ctrlp_extensions = ['Z', 'F']
@@ -43,6 +51,7 @@ in
       nnoremap sf :CtrlPF<Cr>
 
       set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jar,*/target/*
+      set clipboard=unnamedplus
  
       let ensime_server_v2=1
       autocmd BufWritePost *.scala silent :EnTypeCheck
