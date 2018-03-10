@@ -1,5 +1,4 @@
-# Edit this configuration file to define what should be installed on your system.
-# Help is available in the configuration.nix(5) man page and in the NixOS manual
+# Edit this configuration file to define what should be installed on your system.  # Help is available in the configuration.nix(5) man page and in the NixOS manual
 # (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
@@ -80,14 +79,23 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e";
+  services.xserver.xkbOptions = "caps:ctrl_modifier";
 
-  services.xserver.desktopManager.gnome3.enable = true;
-  services.xserver.desktopManager.default = "gnome3";
+  services.xserver.synaptics = {
+    enable = true;
+    maxSpeed = "1.2";
+    twoFingerScroll = true;
+    tapButtons = false;
+  };
 
-  services.xserver.windowManager.xmonad.enable = true;
-  services.xserver.windowManager.default = "xmonad";
-  services.xserver.windowManager.xmonad.enableContribAndExtras = true;
+  services.xserver.windowManager = {
+    i3.enable = true;
+    default = "i3";
+  }; 
+
+  services.xserver.xrandrHeads = [
+    # "eDP1" 
+  ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.spietz = {
@@ -114,8 +122,7 @@
     path = [ pkgs.rxvt_unicode ];
     serviceConfig.Restart = "always";
     serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.xcape}/bin/xcape -e 'Caps_Lock=Escape'";
-  };
+    serviceConfig.ExecStart = "${pkgs.xcape}/bin/xcape -e 'Caps_Lock=Escape'"; };
 
   virtualisation.docker.enable = true;
   virtualisation.virtualbox.host.enable = true;
@@ -124,4 +131,6 @@
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "18.03";
+
+
 }
