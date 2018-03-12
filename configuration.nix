@@ -26,6 +26,8 @@
   nixpkgs.config.allowUnfree = true;
   networking.networkmanager.enable = true;
 
+  hardware.pulseaudio.enable = true;
+
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true; # Enables wireless support via
   # wpa_supplicant.
@@ -46,6 +48,7 @@
     firefox
     slack
     xcape
+    xscreensaver
     customVim
     emacs
     tmux
@@ -89,13 +92,26 @@
   };
 
   services.xserver.windowManager = {
-    i3.enable = true;
     default = "i3";
+    i3.enable = true;
+    i3.configFile = import ./i3-config.nix { inherit config; inherit pkgs; };
   }; 
 
-  services.xserver.xrandrHeads = [
-    # "eDP1" 
-  ];
+  services.xserver.displayManager.slim = {
+    enable = true;
+    defaultUser = "spietz";
+  };
+
+  services.xserver.displayManager.sessionCommands = ''
+    xrandr --output eDP1 --scale 0.8x0.8
+    xrandr --output DP2 --auto --above eDP1
+    xscreensaver -no-splash &
+  '';
+
+  services.xserver.xautolock = {
+    enable = true;
+    locker = "xscreensaver-command -l";
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.spietz = {
