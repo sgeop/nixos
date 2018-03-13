@@ -40,6 +40,10 @@
   # Set your time zone.
   time.timeZone = "America/New_York";
 
+  fonts.enableFontDir = true;
+
+  fonts.fonts = with pkgs; [ dejavu_fonts hack-font font-awesome-ttf ];
+
   # List packages installed in system profile. To search by name, run: $ nix-env
   # -qaP | grep wget
   environment.systemPackages = with pkgs; [
@@ -56,6 +60,10 @@
     python
     weechat
     alacritty
+    nitrogen
+    dejavu_fonts
+    hack-font
+    font-awesome-ttf
   ];
 
   nixpkgs.config.packageOverrides = (import ./package-overrides);
@@ -94,7 +102,13 @@
   services.xserver.windowManager = {
     default = "i3";
     i3.enable = true;
+    i3.package = pkgs.i3-gaps;
     i3.configFile = import ./i3-config.nix { inherit config; inherit pkgs; };
+    i3.extraPackages = with pkgs; [
+      dmenu
+      i3blocks-gaps
+      i3lock-fancy
+    ];
   }; 
 
   services.xserver.displayManager.slim = {
