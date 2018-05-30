@@ -113,7 +113,7 @@ writeText "i3-config" ''
   floating_modifier $mod
 
   # start a terminal
-  bindsym $mod+Return exec ${alacritty}/bin/alacritty
+  bindsym $mod+Return exec termite
 
   # kill focused window
   bindsym $mod+Shift+q kill
@@ -269,7 +269,7 @@ writeText "i3-config" ''
           height 16
   }
 
-  exec --no-startup-id ${feh}/bin/feh --bg-fill $HOME/.config/wallpapers/fractal.png
+  exec --no-startup-id ${feh}/bin/feh --bg-fill $HOME/.config/wallpapers/W7Yq34M.jpg
 
   exec --no-startup-id xrandr --output eDP1 --scale 0.8x0.8
   exec --no-startup-id xrandr --output DP2 --auto --above eDP1

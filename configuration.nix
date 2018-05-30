@@ -47,34 +47,38 @@
   # List packages installed in system profile. To search by name, run: $ nix-env
   # -qaP | grep wget
   environment.systemPackages = with pkgs; [
+    alacritty
     bashInteractive
-    wget
+    customVim
+    dejavu_fonts
+    emacs
     firefox
+    fish
+    font-awesome-ttf
+    fzf
+    git
+    hack-font
+    kubectl
+    nitrogen
+    python3
     slack
+    termite
+    termite.terminfo
+    tmux
+    weechat
+    wget
     xcape
     xscreensaver
-    customVim
-    emacs
-    tmux
-    git
-    python
-    weechat
-    alacritty
-    nitrogen
-    dejavu_fonts
-    hack-font
-    font-awesome-ttf
+    yi
   ];
 
   nixpkgs.config.packageOverrides = (import ./package-overrides);
+
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-  users.extraUsers.root.openssh.authorizedKeys.keys = [
-    # builtins.readFile("/home/spietz/.ssh/id_rsa.pub")
-  ];
 
   # Open ports in the firewall. networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ]; Or disable the firewall
@@ -92,6 +96,13 @@
   services.xserver.layout = "us";
   services.xserver.xkbOptions = "caps:ctrl_modifier";
 
+  services.compton = {
+    enable = true;
+    opacityRules = [
+      "86:class_g = 'Termite'"
+    ];
+  };
+
   services.xserver.synaptics = {
     enable = true;
     maxSpeed = "1.2";
@@ -103,7 +114,12 @@
     default = "i3";
     i3.enable = true;
     i3.package = pkgs.i3-gaps;
-    i3.configFile = import ./i3-config.nix { inherit config; inherit pkgs; };
+
+    i3.configFile = import ./config/i3.nix { 
+      inherit config;
+      inherit pkgs;
+    };
+
     i3.extraPackages = with pkgs; [
       dmenu
       i3blocks-gaps
@@ -127,6 +143,12 @@
     locker = "xscreensaver-command -l";
   };
 
+
+  programs.bash.enableCompletion = true;
+
+  users.defaultUserShell = "${pkgs.bashInteractive}/bin/bash";
+
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.spietz = {
     isNormalUser = true;
@@ -144,6 +166,10 @@
       "video"
     ];
   };
+
+  users.extraUsers.root.openssh.authorizedKeys.keys = [
+    # builtins.readFile("/home/spietz/.ssh/id_rsa.pub")
+  ];
 
   systemd.user.services."xcape" = {
     enable = true;

@@ -7,7 +7,7 @@ let
     inherit (darwin) libobjc cf-private;
 
     features = "huge";
-    python = pkgs.python.withPackages (ps: [ ps.websocket_client ps.sexpdata ]);
+    python = pkgs.python3.withPackages (ps: [ ps.websocket_client ps.sexpdata ]);
     lua = pkgs.lua5_1;
     gui = config.vim.gui or "auto";
 
@@ -18,12 +18,14 @@ in
   my_vim_configurable.customize {
     name = "vim";
     vimrcConfig.customRC = ''
-      let 
+      let
       syntax on
       filetype on
       filetype plugin on
       filetype plugin indent on
       set backspace=indent,eol,start
+
+      let g:deoplete#enable_at_startup = 1
 
       " when pressing tab use 2 spaces width
       set expandtab
@@ -42,36 +44,36 @@ in
       map <C-H> <C-W>h
       map <C-L> <C-W>l
 
-      colorscheme gardener
+      colorscheme molokai
 
-      let g:ctrlp_z_nerdtree = 1
-      let g:ctrlp_extensions = ['Z', 'F']
-
-      nnoremap sz :CtrlPZ<Cr>
-      nnoremap sf :CtrlPF<Cr>
+      " nnoremap <C-p> :<C-u>Denite file_rec<CR>
+      nnoremap <C-s> :<C-u>Denite grep<CR>
 
       set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jar,*/target/*
       set clipboard=unnamedplus
- 
-      let ensime_server_v2=1
-      autocmd BufWritePost *.scala silent :EnTypeCheck
-      au FileType scala nnoremap <localleader>t :EnType<CR>
-      au FileType scala nnoremap <localleader>df :EnDeclaration<CR>
+
+      autocmd BufWritePre * :%s/\s\+$//e
+
+      " let ensime_server_v2=1
+      " autocmd BufWritePost *.scala silent :EnTypeCheck
+      " au FileType scala nnoremap <localleader>t :EnType<CR>
+      " au FileType scala nnoremap <localleader>df :EnDeclaration<CR>
     '';
 
     vimrcConfig.vam.pluginDictionaries = [
       # load always
-      { names = [ 
+      { names = [
         "youcompleteme"
         "nerdtree"
         "vim-airline"
-        "ctrlp-vim"
-        "ctrlp-z"
         "vim-colorschemes"
         "ale"
         "ghcmod"
+        "neco-ghc"
         "vimproc"
-        "ensime-vim"
+        "denite"
+        "ctrlp-vim"
       ];}
     ];
   }
+
