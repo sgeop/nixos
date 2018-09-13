@@ -19,7 +19,7 @@ let
   blocksConfig = writeText "i3-blocks-config" ''
     separator_block_width=12
     separator=false
-    border_bottom=4    
+    border_bottom=4
 
     [audio]
     label=
@@ -269,7 +269,7 @@ writeText "i3-config" ''
           height 16
   }
 
-  exec --no-startup-id ${feh}/bin/feh --bg-fill $HOME/.config/wallpapers/W7Yq34M.jpg
+  exec --no-startup-id ${feh}/bin/feh --bg-fill $HOME/Images/fractal.png
 
   exec --no-startup-id xrandr --output eDP1 --scale 0.8x0.8
   exec --no-startup-id xrandr --output DP2 --auto --above eDP1

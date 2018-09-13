@@ -50,8 +50,8 @@
     alacritty
     bashInteractive
     customVim
+    customEmacs
     dejavu_fonts
-    emacs
     firefox
     fish
     font-awesome-ttf
@@ -85,7 +85,7 @@
   # altogether. networking.firewall.enable = false;
 
   # Enable CUPS to print documents. services.printing.enable = true;
-  
+
   # Enable Postgres server
   services.postgresql.enable = true;
   services.postgresql.package = pkgs.postgresql100;
@@ -115,7 +115,7 @@
     i3.enable = true;
     i3.package = pkgs.i3-gaps;
 
-    i3.configFile = import ./config/i3.nix { 
+    i3.configFile = import ./config/i3.nix {
       inherit config;
       inherit pkgs;
     };
@@ -125,11 +125,6 @@
       i3blocks-gaps
       i3lock-fancy
     ];
-  }; 
-
-  services.xserver.displayManager.slim = {
-    enable = true;
-    defaultUser = "spietz";
   };
 
   services.xserver.displayManager.sessionCommands = ''
