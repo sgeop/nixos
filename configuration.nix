@@ -47,35 +47,40 @@
   # List packages installed in system profile. To search by name, run: $ nix-env
   # -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    alacritty
     bashInteractive
+    iana-etc
     customVim
     customEmacs
+    yi
+    sops
     dejavu_fonts
     firefox
-    fish
     font-awesome-ttf
-    fzf
     git
     hack-font
     kubectl
     nitrogen
     python3
+    jre
     slack
     termite
     termite.terminfo
-    tmux
     weechat
     wget
     xcape
     xscreensaver
-    yi
+    maven
+    sbt
   ];
+
 
   nixpkgs.config.packageOverrides = (import ./package-overrides);
 
 
   # List services that you want to enable:
+
+  # services.emacs.enable = true;
+  # services.emacs.package = pkgs.customEmacs;
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
@@ -87,9 +92,12 @@
   # Enable CUPS to print documents. services.printing.enable = true;
 
   # Enable Postgres server
-  services.postgresql.enable = true;
-  services.postgresql.package = pkgs.postgresql100;
+  # services.postgresql.enable = true;
+  # services.postgresql.package = pkgs.postgresql_10;
 
+  # Enable local Kubernetes cluster
+  # services.kubernetes.roles = ["master" "node"];
+  # services.kubernetes.addons.dashboard.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -127,15 +135,28 @@
     ];
   };
 
+  # services.xserver.windowManager.xmonad = {
+  #   enable = true;
+  #   enableContribAndExtras = true;
+  #   extraPackages = haskellPackages: [
+  #     haskellPackages.xmonad-contrib
+  #     haskellPackages.xmonad-extras
+  #     haskellPackages.xmonad
+  #     haskellPackages.xmobar
+  #   ];
+  # };
+
+  services.xserver.displayManager.lightdm.enable = true;
   services.xserver.displayManager.sessionCommands = ''
     xrandr --output eDP1 --scale 0.8x0.8
     xrandr --output DP2 --auto --above eDP1
     xscreensaver -no-splash &
   '';
 
+  services.xserver.desktopManager.xterm.enable = false;
   services.xserver.xautolock = {
     enable = true;
-    locker = "xscreensaver-command -l";
+    locker = "${pkgs.xscreensaver}/bin/xscreensaver-command -l";
   };
 
 

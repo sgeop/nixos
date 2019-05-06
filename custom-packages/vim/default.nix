@@ -24,6 +24,8 @@ in
       filetype plugin on
       filetype plugin indent on
       set backspace=indent,eol,start
+      set nobackup
+      set noswapfile
 
       let g:deoplete#enable_at_startup = 1
 
@@ -49,10 +51,18 @@ in
       " nnoremap <C-p> :<C-u>Denite file_rec<CR>
       nnoremap <C-s> :<C-u>Denite grep<CR>
 
+      vnoremap <leader>64e c<c-r>=system('base64 -w 0', @")<cr><esc>
+      vnoremap <leader>64d c<c-r>=system('base64 --decode', @")<cr><esc>
+
       set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.jar,*/target/*
       set clipboard=unnamedplus
 
       autocmd BufWritePre * :%s/\s\+$//e
+
+      " augroup tags
+      " au BufWritePost *.hs            silent !init-tags %
+      " au BufWritePost *.hsc           silent !init-tags %
+      " augroup END
 
       " let ensime_server_v2=1
       " autocmd BufWritePost *.scala silent :EnTypeCheck
@@ -73,6 +83,8 @@ in
         "vimproc"
         "denite"
         "ctrlp-vim"
+        "dhall-vim"
+        "purescript-vim"
       ];}
     ];
   }

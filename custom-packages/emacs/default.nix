@@ -26,5 +26,7 @@ in
     company
     flycheck
     ensime
+    projectile
+    counsel-projectile
   ]))
 
