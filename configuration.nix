@@ -51,8 +51,11 @@
     iana-etc
     customVim
     customEmacs
+    stow
     yi
     sops
+    pass
+    gnupg
     dejavu_fonts
     firefox
     font-awesome-ttf
@@ -69,8 +72,10 @@
     wget
     xcape
     xscreensaver
+    xorg.xbacklight
     maven
     sbt
+    (polybar.override { i3Support = true; })
   ];
 
 

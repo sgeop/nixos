@@ -128,8 +128,7 @@ writeText "i3-config" ''
   hide_edge_borders both
   for_window [class="^.*"] border pixel 0
 
-  gaps inner 12
-  gaps outer 8
+  gaps inner 8
   smart_gaps on
 
   # change focus
@@ -262,12 +261,14 @@ writeText "i3-config" ''
 
   # Start i3bar to display a workspace bar (plus the system information i3status
   # finds out, if available)
-  bar {
-          status_command ${i3blocks-gaps}/bin/i3blocks -c ${blocksConfig}
-          separator_symbol "■"
-          position top
-          height 16
-  }
+  # bar {
+  #         status_command ${i3blocks-gaps}/bin/i3blocks -c ${blocksConfig}
+  #         separator_symbol "■"
+  #         position top
+  #         height 16
+  # }
+
+  exec_always --no-startup-id ${polybar}/bin/polybar bar1
 
   exec --no-startup-id ${feh}/bin/feh --bg-fill $HOME/Images/fractal.png
 
