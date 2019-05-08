@@ -75,6 +75,8 @@
     xorg.xbacklight
     maven
     sbt
+    dmenu
+    taffybar
     (polybar.override { i3Support = true; })
   ];
 
@@ -123,33 +125,34 @@
     tapButtons = false;
   };
 
-  services.xserver.windowManager = {
-    default = "i3";
-    i3.enable = true;
-    i3.package = pkgs.i3-gaps;
+  # services.xserver.windowManager = {
+  #   default = "i3";
+  #   i3.enable = true;
+  #   i3.package = pkgs.i3-gaps;
 
-    i3.configFile = import ./config/i3.nix {
-      inherit config;
-      inherit pkgs;
-    };
+  #   i3.configFile = import ./config/i3.nix {
+  #     inherit config;
+  #     inherit pkgs;
+  #   };
 
-    i3.extraPackages = with pkgs; [
-      dmenu
-      i3blocks-gaps
-      i3lock-fancy
-    ];
-  };
-
-  # services.xserver.windowManager.xmonad = {
-  #   enable = true;
-  #   enableContribAndExtras = true;
-  #   extraPackages = haskellPackages: [
-  #     haskellPackages.xmonad-contrib
-  #     haskellPackages.xmonad-extras
-  #     haskellPackages.xmonad
-  #     haskellPackages.xmobar
+  #   i3.extraPackages = with pkgs; [
+  #     dmenu
+  #     i3blocks-gaps
+  #     i3lock-fancy
   #   ];
   # };
+
+  services.xserver.windowManager.xmonad = {
+    enable = true;
+    enableContribAndExtras = true;
+    extraPackages = haskellPackages: [
+      haskellPackages.xmonad-contrib
+      haskellPackages.xmonad-extras
+      haskellPackages.xmonad
+      haskellPackages.xmobar
+      haskellPackages.taffybar
+    ];
+  };
 
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.displayManager.sessionCommands = ''
