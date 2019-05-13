@@ -57,6 +57,7 @@
     pass
     gnupg
     dejavu_fonts
+    lxappearance
     firefox
     font-awesome-ttf
     git
@@ -64,7 +65,7 @@
     kubectl
     nitrogen
     python3
-    jre
+    openjdk
     slack
     termite
     termite.terminfo
@@ -74,6 +75,7 @@
     xscreensaver
     xorg.xbacklight
     maven
+    gradle
     sbt
     dmenu
     taffybar
@@ -151,6 +153,7 @@
       haskellPackages.xmonad
       haskellPackages.xmobar
       haskellPackages.taffybar
+      haskellPackages.status-notifier-item
     ];
   };
 
@@ -158,6 +161,9 @@
   services.xserver.displayManager.sessionCommands = ''
     xrandr --output eDP1 --scale 0.8x0.8
     xrandr --output DP2 --auto --above eDP1
+
+    ${pkgs.feh}/bin/feh --bg-fill $HOME/Images/fractal.png
+
     xscreensaver -no-splash &
   '';
 
